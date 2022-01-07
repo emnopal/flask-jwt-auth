@@ -22,6 +22,7 @@ PostgreSQL as database with SQLAlchemy as SQL Connector to Python.
 - Create new python venv: `python -m venv <venv_name>`
 - Activate python venv: `source <venv_name>/bin/activate`
 - Install dependencies: `pip install -r requirements.txt`
+- Migrate database: `python migrate.py`
 - Run development server: `python app.py`
 
 For API testing, I suggest you to use [Postman](https://www.postman.com/) for testing the API. <br><br>
