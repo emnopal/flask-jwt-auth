@@ -13,7 +13,7 @@ from helper.docs import RegisterRequest, RegisterResponse, LoginRequestPost, Log
 class RegisterAPIDocs(MethodResource, Resource):
     register = RegisterAPI()
 
-    @doc(description='Register Endpoint.', tags=['Register', 'Login', 'Post'])
+    @doc(description='Register Endpoint.', tags=['Create', 'Register', 'Post'])
     @use_kwargs(RegisterRequest, location='json')
     @marshal_with(RegisterResponse)
     def post(self):
@@ -23,13 +23,13 @@ class RegisterAPIDocs(MethodResource, Resource):
 class LoginAPIDocs(MethodResource, Resource):
     login = LoginAPI()
 
-    @doc(description='Login Endpoint.', tags=['Login', 'Post'])
+    @doc(description='Login Endpoint.', tags=['Create', 'Login', 'Post'])
     @use_kwargs(LoginRequestPost, location='json')
     @marshal_with(LoginResponse)
     def post(self):
         return self.login.post()
 
-    @doc(description='Login Endpoint.', tags=['Login', 'Get', 'Session', 'Token'])
+    @doc(description='Login Endpoint.', tags=['Create', 'Login', 'Get'])
     @use_kwargs(LoginRequestGet, location='cookies')
     @marshal_with(LoginResponse)
     def get(self):
@@ -39,7 +39,7 @@ class LoginAPIDocs(MethodResource, Resource):
 class CurrentSessionDocs(MethodResource, Resource):
     current_session = CurrentSession()
 
-    @doc(description='Current Session Endpoint.', tags=['Session', 'Login', 'Token', 'Get'])
+    @doc(description='Current Session Endpoint.', tags=['Read', 'Session', 'Get'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -53,7 +53,7 @@ class CurrentSessionDocs(MethodResource, Resource):
     def get(self):
         return self.current_session.get()
 
-    @doc(description='Current Session Endpoint.', tags=['Session', 'Login', 'Token', 'Post'])
+    @doc(description='Current Session Endpoint.', tags=['Read', 'Session', 'Post'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -71,7 +71,7 @@ class CurrentSessionDocs(MethodResource, Resource):
 class UpdateUserInformationDocs(MethodResource, Resource):
     update_user_information = UpdateUserInformation()
 
-    @doc(description='Update User Information Endpoint.', tags=['User', 'Update', 'Post', 'Profile'])
+    @doc(description='Update User Information Endpoint.', tags=['Update', 'Post', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -83,7 +83,7 @@ class UpdateUserInformationDocs(MethodResource, Resource):
     def post(self):
         return self.update_user_information.post()
 
-    @doc(description='Update User Information Endpoint.', tags=['User', 'Update', 'Put', 'Profile'])
+    @doc(description='Update User Information Endpoint.', tags=['Update', 'Put', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -95,7 +95,7 @@ class UpdateUserInformationDocs(MethodResource, Resource):
     def put(self):
         return self.post()
 
-    @doc(description='Update User Information Endpoint.', tags=['User', 'Update', 'Patch', 'Profile'])
+    @doc(description='Update User Information Endpoint.', tags=['Update', 'Patch', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -111,7 +111,7 @@ class UpdateUserInformationDocs(MethodResource, Resource):
 class UpdatePasswordDocs(MethodResource, Resource):
     update_password = UpdatePassword()
 
-    @doc(description='Update User Password Endpoint.', tags=['User', 'Update', 'Password', 'Post', 'Profile'])
+    @doc(description='Update User Password Endpoint.', tags=['Update', 'Password', 'Post', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -123,7 +123,7 @@ class UpdatePasswordDocs(MethodResource, Resource):
     def post(self):
         return self.update_password.post()
 
-    @doc(description='Update User Password Endpoint.', tags=['User', 'Update', 'Password', 'Put', 'Profile'])
+    @doc(description='Update User Password Endpoint.', tags=['Update', 'Password', 'Put', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -135,7 +135,7 @@ class UpdatePasswordDocs(MethodResource, Resource):
     def put(self):
         return self.post()
 
-    @doc(description='Update User Password Endpoint.', tags=['User', 'Update', 'Password', 'Patch', 'Profile'])
+    @doc(description='Update User Password Endpoint.', tags=['Update', 'Password', 'Patch', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -151,7 +151,7 @@ class UpdatePasswordDocs(MethodResource, Resource):
 class UpdateUsernameDocs(MethodResource, Resource):
     update_username = UpdateUsername()
 
-    @doc(description='Update Username Endpoint.', tags=['User', 'Update', 'Username', 'Post', 'Profile'])
+    @doc(description='Update Username Endpoint.', tags=['Update', 'Username', 'Post', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -163,7 +163,7 @@ class UpdateUsernameDocs(MethodResource, Resource):
     def post(self):
         return self.update_username.post()
 
-    @doc(description='Update Username Endpoint.', tags=['User', 'Update', 'Username', 'Put', 'Profile'])
+    @doc(description='Update Username Endpoint.', tags=['Update', 'Username', 'Put', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -175,7 +175,7 @@ class UpdateUsernameDocs(MethodResource, Resource):
     def put(self):
         return self.post()
 
-    @doc(description='Update Username Endpoint.', tags=['User', 'Update', 'Username', 'Patch', 'Profile'])
+    @doc(description='Update Username Endpoint.', tags=['Update', 'Username', 'Patch', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -191,7 +191,7 @@ class UpdateUsernameDocs(MethodResource, Resource):
 class UserAPIDocs(MethodResource, Resource):
     get_user = UserAPI()
 
-    @doc(description='Get User Information Endpoint.', tags=['User', 'Get', 'Username', 'Session', 'Profile'])
+    @doc(description='Get User Information Endpoint.', tags=['Read', 'Get', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -202,7 +202,7 @@ class UserAPIDocs(MethodResource, Resource):
     def get(self):
         return self.get_user.get()
 
-    @doc(description='Get User Information Endpoint.', tags=['User', 'Post', 'Username', 'Session', 'Profile'])
+    @doc(description='Get User Information Endpoint.', tags=['Read', 'Post', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -219,7 +219,7 @@ class FindByNameDocs(MethodResource, Resource):
 
     @doc(
         description='Get Name of User Information Endpoint.',
-        tags=['User', 'Get', 'Name', 'Session', 'Profile', 'Find']
+        tags=['Find', 'Read', 'Get', 'Profile']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -236,7 +236,7 @@ class FindByNameDocs(MethodResource, Resource):
 
     @doc(
         description='Get Name of User Information Endpoint.',
-        tags=['User', 'Post', 'Name', 'Session', 'Profile', 'Find']
+        tags=['Find', 'Read', 'Post', 'Profile']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -257,7 +257,7 @@ class GetReferralCodeDocs(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['User', 'Get', 'Name', 'Session', 'Profile', 'Find', 'Referral', 'Code']
+        tags=['Find', 'Read', 'Get', 'Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -271,7 +271,7 @@ class GetReferralCodeDocs(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['User', 'Post', 'Name', 'Session', 'Profile', 'Find', 'Referral', 'Code']
+        tags=['Find', 'Read', 'Post', 'Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -289,7 +289,7 @@ class ValidateReferralCodeDocs(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['User', 'Post', 'Name', 'Session', 'Profile', 'Validate', 'Referral', 'Code']
+        tags=['Validate', 'Read', 'Post', 'Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -304,7 +304,7 @@ class ValidateReferralCodeDocs(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['User', 'Get', 'Name', 'Session', 'Profile', 'Validate', 'Referral', 'Code']
+        tags=['Validate', 'Read', 'Get', 'Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -342,7 +342,7 @@ class GetHeroNameDocs(MethodResource, Resource):
 
     @doc(
         description='Get Name of User Information Endpoint.',
-        tags=['User', 'Post', 'Name', 'Session', 'Profile', 'Find']
+        tags=['Hero', 'Post', 'Name', 'Find']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -363,7 +363,7 @@ class LogoutAPIDocs(MethodResource, Resource):
 
     @doc(
         description='Log Out Endpoint.',
-        tags=['Post', 'Session', 'Login', 'Logout', 'Register', 'Token']
+        tags=['Post', 'Logout']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -377,7 +377,7 @@ class LogoutAPIDocs(MethodResource, Resource):
 
     @doc(
         description='Log Out Endpoint.',
-        tags=['Get', 'Session', 'Login', 'Logout', 'Register', 'Token']
+        tags=['Get', 'Logout']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -391,7 +391,7 @@ class LogoutAPIDocs(MethodResource, Resource):
 
     @doc(
         description='Log Out Endpoint.',
-        tags=['Delete', 'Session', 'Login', 'Logout', 'Register', 'Token']
+        tags=['Delete', 'Logout']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
