@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./
+    env_file:
+      - ./.env
+    depends_on:
+      - db
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/usr/app/
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DATABASE}
+    ports:
+      - 5432:5432
+    volumes:
+      - db_volume:/var/lib/postgresql
+
+volumes:
+  db_volume:

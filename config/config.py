@@ -9,7 +9,8 @@ password = os.getenv('DB_PASSWORD')
 host = os.getenv('DB_HOST')
 port = os.getenv('DB_PORT')
 database = os.getenv('DATABASE')
-database_test = os.getenv('DATABASE_TEST')
+database_test = os.getenv('DATABASE')
+# database_test = os.getenv('DATABASE_TEST')
 
 postgres_local_base = f'postgresql://{username}:{password}@{host}:{port}/'
 
