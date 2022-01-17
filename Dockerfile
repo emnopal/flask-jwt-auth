@@ -1,16 +1,17 @@
 FROM python:3.9.7
 
-WORKDIR /usr/app
-
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+RUN mkdir -p /opt/services/flaskapp/src
+COPY ./requirements.txt /opt/services/flaskapp/src
+WORKDIR /opt/services/flaskapp/src
+
 RUN pip install --upgrade pip
-COPY ./requirements.txt /usr/app/requirements.txt
 RUN pip install -r requirements.txt
 
-COPY . /usr/app/
+COPY . /opt/services/flaskapp/src
 
-RUN python migrate.py
+EXPOSE 5090
 
 CMD ["python", "app.py"]

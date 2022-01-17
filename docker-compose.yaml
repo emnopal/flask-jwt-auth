@@ -1,26 +1,50 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  web:
-    build: ./
-    env_file:
-      - ./.env
-    depends_on:
-      - db
-    ports:
-      - 5000:5000
-    volumes:
-      - ./:/usr/app/
   db:
-    image: postgres:latest
+    image: postgres:9.6.5
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+    env_file:
+      - .env
+    networks:
+      - db_network
     environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DATABASE}
-    ports:
-      - 5432:5432
+  flaskapp:
+    build: .
+    restart: always
+    env_file:
+      - .env
     volumes:
-      - db_volume:/var/lib/postgresql
+      - .:/opt/services/flaskapp/src
+    depends_on:
+      - db
+    links:
+      - db:db
+    networks:
+      - web_network
+      - db_network
+    expose:
+      - 5090
+  nginx:
+    image: nginx:1.13.5
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+    networks:
+      - web_network
+    ports:
+      - "8080:80"
+    depends_on:
+      - flaskapp
 
+networks:
+  db_network:
+    driver: bridge
+  web_network:
+    driver: bridge
 volumes:
-  db_volume:
+  dbdata:
