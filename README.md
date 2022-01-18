@@ -39,9 +39,7 @@ PostgreSQL as database with SQLAlchemy as SQL Connector to Python.
   - DATABASE_TEST as Postgres Database (For Development) Name
   - SECRET_KEY as Generate your own secret_key for JWT
 - Run docker compose:<br>
-    `docker-compose up -d db && docker-compose run --rm flaskapp /bin/bash -c "cd /opt/services/flaskapp/src && python migrate.py" && docker-compose up -d`
-- Run docker container:<br>
-    `docker container run --name [container_name] [docker_image]`
+    `$ docker-compose up -d db && docker-compose run --rm flaskapp /bin/bash -c "cd /opt/services/flaskapp/src && python migrate.py" && docker-compose up -d`
 - Access API in:<br>
    `http://localhost:8080`
 
