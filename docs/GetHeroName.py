@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import GetHeroName
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class GetHeroResponse(Schema):
@@ -33,7 +31,7 @@ class GetHeroName(MethodResource, Resource):
         'q': fields.Str(required=True, description="Argument for find hero by their name")
     }, location='args')
     @marshal_with(GetHeroResponse)
-    @middleware
+    @must_login
     def get(self, auth):
         return self.get_hero_name.get(auth)
 
@@ -51,6 +49,6 @@ class GetHeroName(MethodResource, Resource):
         'q': fields.Str(required=True, description="Argument for find hero by name")
     }, location='args')
     @marshal_with(GetHeroResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.get(auth)

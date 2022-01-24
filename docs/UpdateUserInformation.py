@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import UpdateUserInformation
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class UpdateUserInformationRequest(Schema):
@@ -34,7 +32,7 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.update_user_information.post(auth)
 
@@ -47,7 +45,7 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    @middleware
+    @must_login
     def put(self, auth):
         return self.post(auth)
 
@@ -60,6 +58,6 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    @middleware
+    @must_login
     def patch(self, auth):
         return self.post(auth)

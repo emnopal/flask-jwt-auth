@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import UserAPI
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class UserResponseData(Schema):
@@ -35,7 +33,7 @@ class UserAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(UserResponse)
-    @middleware
+    @must_login
     def get(self, auth):
         return self.get_user.get(auth)
 
@@ -47,6 +45,6 @@ class UserAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(UserResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.get(auth)

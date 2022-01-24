@@ -3,12 +3,12 @@ from flask_restful import Resource
 from helper.message import response_message
 from model import BlacklistToken
 from controller import db
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class LogoutAPI(MethodResource, Resource):
 
-    @middleware
+    @must_login
     def post(self, auth):
         blacklist_token = BlacklistToken(token=auth['auth_header'])
         try:
@@ -20,10 +20,10 @@ class LogoutAPI(MethodResource, Resource):
         except Exception as e:
             return response_message(500, 'fail', f'Internal Server Error, with error: {e}.')
 
-    @middleware
+    @must_login
     def get(self, auth):
         return self.post(auth)
 
-    @middleware
+    @must_login
     def delete(self, auth):
         return self.post(auth)

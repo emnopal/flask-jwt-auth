@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import FindByName
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 class GetNameResponseData(Schema):
     username = fields.Str(required=True, description="Response for Username")
@@ -38,7 +36,7 @@ class FindByName(MethodResource, Resource):
         'name': fields.Str(required=True, description="Argument for find user by name")
     }, location='args')
     @marshal_with(GetNameResponse)
-    @middleware
+    @must_login
     def get(self, auth):
         return self.find_by_name.get(auth)
 
@@ -56,6 +54,6 @@ class FindByName(MethodResource, Resource):
         'name': fields.Str(required=True, description="Argument for find user by name")
     }, location='args')
     @marshal_with(GetNameResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.get(auth)

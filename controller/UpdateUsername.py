@@ -2,7 +2,7 @@ from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
 from helper.message import response_message
-from helper.middleware import middleware
+from middleware.must_login import must_login
 from model import User
 from controller import db, bcrypt
 from helper.encode_auth_token import encode_auth_token
@@ -10,7 +10,7 @@ from helper.encode_auth_token import encode_auth_token
 
 class UpdateUsername(MethodResource, Resource):
 
-    @middleware
+    @must_login
     def post(self, auth):
         post_data = request.get_json()
         try:
@@ -40,10 +40,10 @@ class UpdateUsername(MethodResource, Resource):
         except Exception as e:
             return response_message(500, 'fail', f'Some error occurred. Please try again. {e}')
 
-    @middleware
+    @must_login
     def put(self, auth):
         return self.post(auth)
 
-    @middleware
+    @must_login
     def patch(self, auth):
         return self.post(auth)

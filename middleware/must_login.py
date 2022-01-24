@@ -3,15 +3,16 @@ from helper.decode_auth_token import decode_auth_token
 from flask import request
 
 
-def middleware(func):
-    def must_login(self, *args, **kwargs):
+def must_login(func):
+    def wrapper(self, *args, **kwargs):
         auth_header = request.headers.get('Authorization')
         auth_cookie = request.cookies.get('app_session')
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
             except IndexError:
-                return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login or register to continue.')
+                return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login '
+                                                     'or register to continue.')
         else:
             auth_token = ''
         if auth_token and auth_cookie and auth_token == auth_cookie:
@@ -27,4 +28,4 @@ def middleware(func):
                 return response_message(401, 'fail', resp)
         else:
             return response_message(401, 'fail', 'Token not valid, please login or register to continue.')
-    return must_login
+    return wrapper

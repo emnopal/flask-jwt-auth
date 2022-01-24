@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import LogoutAPI
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class LogoutResponse(Schema):
@@ -29,7 +27,7 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.logout.post(auth)
 
@@ -44,7 +42,7 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    @middleware
+    @must_login
     def get(self, auth):
         return self.post(auth)
 
@@ -59,6 +57,6 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    @middleware
+    @must_login
     def delete(self, auth):
         return self.post(auth)

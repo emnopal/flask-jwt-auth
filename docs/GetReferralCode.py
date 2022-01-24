@@ -1,11 +1,9 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import GetReferralCode
-from helper.middleware import middleware
+from middleware.must_login import must_login
 
 
 class GetReferralCodeResponse(Schema):
@@ -30,7 +28,7 @@ class GetReferralCode(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(GetReferralCodeResponse)
-    @middleware
+    @must_login
     def get(self, auth):
         return self.referral_code.get(auth)
 
@@ -45,6 +43,6 @@ class GetReferralCode(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(GetReferralCodeResponse)
-    @middleware
+    @must_login
     def post(self, auth):
         return self.get(auth)
