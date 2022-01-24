@@ -3,130 +3,9 @@ from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
 from helper.message import response_message
-from model.user import User, BlacklistToken, db, bcrypt, app
-
-
-class RegisterAPI(MethodResource, Resource):
-    def post(self):
-        post_data = request.get_json()
-        user = User.query.filter_by(username=post_data.get('username')).first()
-        if not user:
-            try:
-                user = User(
-                    username=post_data.get('username'),
-                    password=post_data.get('password'),
-                    email=post_data.get('email'),
-                    name=post_data.get('name')
-                )
-                db.session.add(user)
-                db.session.commit()
-                return response_message(201, 'success', 'Successfully registered.')
-            except:
-                return response_message(401, 'fail', 'Some error occurred. Please try again.')
-        else:
-            return response_message(202, 'fail', 'User already exists. Please Log in.')
-
-
-class LoginAPI(MethodResource, Resource):
-    def post(self):
-        post_data = request.get_json()
-        try:
-            user = User.query.filter_by(username=post_data.get('username')).first()
-            if user and bcrypt.check_password_hash(user.password, post_data.get('password')):
-                auth_token = user.encode_auth_token(user.username)
-                if auth_token:
-                    data = {
-                        'auth_token': auth_token,
-                        'referral_code': user.referral_code
-                    }
-                    res = response_message(200, 'success', 'Successfully logged in.', data)
-                    res.set_cookie('app_session', auth_token, max_age=60 * 60)
-                    return res
-            else:
-                return response_message(404, 'fail', 'User does not exist or username or password not match.')
-        except Exception as e:
-            return response_message(401, 'fail', f'Username or password not match. {e}')
-
-    def get(self):
-        if request.cookies.get('app_session'):
-            data = {
-                'auth_token': request.cookies.get('app_session')
-            }
-            return response_message(200, 'success', 'Successfully logged in.', data)
-        else:
-            return response_message(401, 'fail', 'Session does not exists, Please login.')
-
-
-class CurrentSession(MethodResource, Resource):
-    def get(self):
-        auth_header = request.headers.get('Authorization')
-        auth_cookie = request.cookies.get('app_session')
-        args = request.args
-        if auth_header:
-            try:
-                auth_token = auth_header.split(" ")[1]
-            except IndexError:
-                return response_message(401, 'fail', 'Bearer token malformed.')
-        else:
-            auth_token = ''
-        if auth_token and auth_cookie and auth_token == auth_cookie:
-            resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
-                if args.get('decode') in ['true', 'True', 1, '1']:
-                    data = {
-                        'auth_token': request.cookies.get('app_session'),
-                        'decoded_token': resp
-                    }
-                    return response_message(200, 'success', 'Successfully get session data.', data)
-                data = {
-                    'auth_token': request.cookies.get('app_session'),
-                }
-                return response_message(200, 'success', 'Successfully get session data.', data)
-        return response_message(401, 'fail', 'Session does not exists or not a valid token, Please login.')
-
-    def post(self):
-        return self.get()
-
-
-class UpdateUserInformation(MethodResource, Resource):
-    def post(self):
-        post_data = request.get_json()
-        auth_header = request.headers.get('Authorization')
-        auth_cookie = request.cookies.get('app_session')
-        if auth_header:
-            try:
-                auth_token = auth_header.split(" ")[1]
-            except IndexError:
-                return response_message(401, 'fail', 'Bearer token malformed.')
-        else:
-            auth_token = ''
-        if auth_token and auth_cookie and auth_token == auth_cookie:
-            resp = User.decode_auth_token(auth_token)
-            if not isinstance(resp, str):
-                try:
-                    user = User.query.filter_by(username=post_data.get('username')).first()
-                    if user and user.username == resp['sub']['username']:
-                        if bcrypt.check_password_hash(user.password, post_data.get('password')):
-                            try:
-                                user.name = post_data.get('name')
-                                user.email = post_data.get('email')
-                                db.session.commit()
-                                return response_message(200, 'success', 'Successfully updated data.')
-                            except:
-                                return response_message(500, 'fail', 'Email already exists.')
-                        else:
-                            return response_message(401, 'fail', 'You have no permission to update data.')
-                    else:
-                        return response_message(404, 'fail', "User doesn't exist.")
-                except Exception as e:
-                    return response_message(500, 'fail', f'Some error occurred. Please try again. {e}')
-        return response_message(401, 'fail', 'Session does not exists or not a valid token, Please login.')
-
-    def put(self):
-        return self.post()
-
-    def patch(self):
-        return self.post()
+from model import User, BlacklistToken
+from controller import db, bcrypt, app
+from helper.decode_auth_token import decode_auth_token
 
 
 class UpdatePassword(MethodResource, Resource):
@@ -142,7 +21,7 @@ class UpdatePassword(MethodResource, Resource):
         else:
             auth_token = ''
         if auth_token and auth_cookie and auth_token == auth_cookie:
-            resp = User.decode_auth_token(auth_token)
+            resp = decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 try:
                     user = User.query.filter_by(username=post_data.get('username')).first()

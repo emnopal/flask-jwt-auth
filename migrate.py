@@ -1,4 +1,4 @@
-from controller.controller import db
+from model import db
 
 
 def migrate():
