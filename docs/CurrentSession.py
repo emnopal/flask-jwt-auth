@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import CurrentSession
+from helper.middleware import middleware
 
 
 class CurrentSessionData(Schema):
@@ -34,8 +35,9 @@ class CurrentSession(MethodResource, Resource):
         'decode': fields.Str(required=True, description="Argument from URL for decoded JWT", default=None)
     }, location='args')
     @marshal_with(CurrentSessionResponse)
-    def get(self):
-        return self.current_session.get()
+    @middleware
+    def get(self, auth):
+        return self.current_session.get(auth)
 
     @doc(description='Current Session Endpoint.', tags=['Read', 'Session', 'Post'])
     @use_kwargs({
@@ -48,5 +50,6 @@ class CurrentSession(MethodResource, Resource):
         'decode': fields.Str(required=True, description="Argument from URL for decoded JWT", default=None)
     }, location='args')
     @marshal_with(CurrentSessionResponse)
-    def post(self):
-        return self.get()
+    @middleware
+    def post(self, auth):
+        return self.get(auth)

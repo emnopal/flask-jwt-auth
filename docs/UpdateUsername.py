@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import UpdateUsername
+from helper.middleware import middleware
 
 
 class NewSessionData(Schema):
@@ -37,8 +38,9 @@ class UpdateUsername(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUsernameRequest, location='json')
     @marshal_with(UpdateUsernameResponse)
-    def post(self):
-        return self.update_username.post()
+    @middleware
+    def post(self, auth):
+        return self.update_username.post(auth)
 
     @doc(description='Update Username Endpoint.', tags=['Update', 'Username', 'Put', 'Profile'])
     @use_kwargs({
@@ -49,8 +51,9 @@ class UpdateUsername(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUsernameRequest, location='json')
     @marshal_with(UpdateUsernameResponse)
-    def put(self):
-        return self.post()
+    @middleware
+    def put(self, auth):
+        return self.post(auth)
 
     @doc(description='Update Username Endpoint.', tags=['Update', 'Username', 'Patch', 'Profile'])
     @use_kwargs({
@@ -61,5 +64,6 @@ class UpdateUsername(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUsernameRequest, location='json')
     @marshal_with(UpdateUsernameResponse)
-    def patch(self):
-        return self.post()
+    @middleware
+    def patch(self, auth):
+        return self.post(auth)

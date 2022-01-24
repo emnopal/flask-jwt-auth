@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import UserAPI
+from helper.middleware import middleware
 
 
 class UserResponseData(Schema):
@@ -34,8 +35,9 @@ class UserAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(UserResponse)
-    def get(self):
-        return self.get_user.get()
+    @middleware
+    def get(self, auth):
+        return self.get_user.get(auth)
 
     @doc(description='Get User Information Endpoint.', tags=['Read', 'Post', 'Profile'])
     @use_kwargs({
@@ -45,5 +47,6 @@ class UserAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(UserResponse)
-    def post(self):
-        return self.get()
+    @middleware
+    def post(self, auth):
+        return self.get(auth)

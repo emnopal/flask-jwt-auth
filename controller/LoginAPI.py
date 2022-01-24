@@ -4,7 +4,7 @@ from flask_restful import Resource
 from helper.message import response_message
 from model import User
 from controller import bcrypt
-from helper.decode_auth_token import decode_auth_token
+from helper.encode_auth_token import encode_auth_token
 
 
 class LoginAPI(MethodResource, Resource):
@@ -13,7 +13,7 @@ class LoginAPI(MethodResource, Resource):
         try:
             user = User.query.filter_by(username=post_data.get('username')).first()
             if user and bcrypt.check_password_hash(user.password, post_data.get('password')):
-                auth_token = user.encode_auth_token(user.username)
+                auth_token = encode_auth_token(user.username)
                 if auth_token:
                     data = {
                         'auth_token': auth_token,

@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import FindByName
+from helper.middleware import middleware
 
 class GetNameResponseData(Schema):
     username = fields.Str(required=True, description="Response for Username")
@@ -37,8 +38,9 @@ class FindByName(MethodResource, Resource):
         'name': fields.Str(required=True, description="Argument for find user by name")
     }, location='args')
     @marshal_with(GetNameResponse)
-    def get(self):
-        return self.find_by_name.get()
+    @middleware
+    def get(self, auth):
+        return self.find_by_name.get(auth)
 
     @doc(
         description='Get Name of User Information Endpoint.',
@@ -54,5 +56,6 @@ class FindByName(MethodResource, Resource):
         'name': fields.Str(required=True, description="Argument for find user by name")
     }, location='args')
     @marshal_with(GetNameResponse)
-    def post(self):
-        return self.get()
+    @middleware
+    def post(self, auth):
+        return self.get(auth)

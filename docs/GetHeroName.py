@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import GetHeroName
+from helper.middleware import middleware
 
 
 class GetHeroResponse(Schema):
@@ -32,8 +33,9 @@ class GetHeroName(MethodResource, Resource):
         'q': fields.Str(required=True, description="Argument for find hero by their name")
     }, location='args')
     @marshal_with(GetHeroResponse)
-    def get(self):
-        return self.get_hero_name.get()
+    @middleware
+    def get(self, auth):
+        return self.get_hero_name.get(auth)
 
     @doc(
         description='Get Name of User Information Endpoint.',
@@ -49,5 +51,6 @@ class GetHeroName(MethodResource, Resource):
         'q': fields.Str(required=True, description="Argument for find hero by name")
     }, location='args')
     @marshal_with(GetHeroResponse)
-    def post(self):
-        return self.get()
+    @middleware
+    def post(self, auth):
+        return self.get(auth)

@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import UpdateUserInformation
+from helper.middleware import middleware
 
 
 class UpdateUserInformationRequest(Schema):
@@ -33,8 +34,9 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    def post(self):
-        return self.update_user_information.post()
+    @middleware
+    def post(self, auth):
+        return self.update_user_information.post(auth)
 
     @doc(description='Update User Information Endpoint.', tags=['Update', 'Put', 'Profile'])
     @use_kwargs({
@@ -45,8 +47,9 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    def put(self):
-        return self.post()
+    @middleware
+    def put(self, auth):
+        return self.post(auth)
 
     @doc(description='Update User Information Endpoint.', tags=['Update', 'Patch', 'Profile'])
     @use_kwargs({
@@ -57,5 +60,6 @@ class UpdateUserInformation(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')
     @marshal_with(UpdateUserInformationResponse)
-    def patch(self):
-        return self.post()
+    @middleware
+    def patch(self, auth):
+        return self.post(auth)

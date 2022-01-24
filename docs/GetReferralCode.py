@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import GetReferralCode
+from helper.middleware import middleware
 
 
 class GetReferralCodeResponse(Schema):
@@ -29,8 +30,9 @@ class GetReferralCode(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(GetReferralCodeResponse)
-    def get(self):
-        return self.referral_code.get()
+    @middleware
+    def get(self, auth):
+        return self.referral_code.get(auth)
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
@@ -43,5 +45,6 @@ class GetReferralCode(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(GetReferralCodeResponse)
-    def post(self):
-        return self.get()
+    @middleware
+    def post(self, auth):
+        return self.get(auth)

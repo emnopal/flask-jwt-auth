@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import ValidateReferralCode
+from helper.middleware import middleware
 
 
 class ValidateReferralCodeResponse(Schema):
@@ -33,8 +34,9 @@ class ValidateReferralCode(MethodResource, Resource):
     }, location='headers')
     @use_kwargs(ValidateReferralCodeRequest, location='json')
     @marshal_with(ValidateReferralCodeResponse)
-    def post(self):
-        return self.valid_referral_code.post()
+    @middleware
+    def post(self, auth):
+        return self.valid_referral_code.post(auth)
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
@@ -50,5 +52,6 @@ class ValidateReferralCode(MethodResource, Resource):
         'ref': fields.Str(required=True, description="Argument for validate referral code")
     }, location='args')
     @marshal_with(ValidateReferralCodeResponse)
-    def get(self):
-        return self.valid_referral_code.get()
+    @middleware
+    def get(self, auth):
+        return self.valid_referral_code.get(auth)

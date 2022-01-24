@@ -5,6 +5,7 @@ from flask import request
 from marshmallow import Schema, fields
 
 from controller import LogoutAPI
+from helper.middleware import middleware
 
 
 class LogoutResponse(Schema):
@@ -28,8 +29,9 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    def post(self):
-        return self.logout.post()
+    @middleware
+    def post(self, auth):
+        return self.logout.post(auth)
 
     @doc(
         description='Log Out Endpoint.',
@@ -42,8 +44,9 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    def get(self):
-        return self.post()
+    @middleware
+    def get(self, auth):
+        return self.post(auth)
 
     @doc(
         description='Log Out Endpoint.',
@@ -56,5 +59,6 @@ class LogoutAPI(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(LogoutResponse)
-    def delete(self):
-        return self.post()
+    @middleware
+    def delete(self, auth):
+        return self.post(auth)
