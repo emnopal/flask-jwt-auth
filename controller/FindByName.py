@@ -1,9 +1,9 @@
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
-from helper.message import response_message
+from helper import response_message
 from model import User
-from middleware.must_login import must_login
+from middleware import must_login
 
 
 class FindByName(MethodResource, Resource):
@@ -34,6 +34,3 @@ class FindByName(MethodResource, Resource):
             }
         return response_message(200, 'success', 'Successfully get user data.', data)
 
-    @must_login
-    def post(self, auth):
-        return self.get(auth)

@@ -18,7 +18,7 @@ class LogoutAPI(MethodResource, Resource):
 
     @doc(
         description='Log Out Endpoint.',
-        tags=['Post', 'Logout']
+        tags=['Session']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -30,33 +30,3 @@ class LogoutAPI(MethodResource, Resource):
     @must_login
     def post(self, auth):
         return self.logout.post(auth)
-
-    @doc(
-        description='Log Out Endpoint.',
-        tags=['Get', 'Logout']
-    )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @marshal_with(LogoutResponse)
-    @must_login
-    def get(self, auth):
-        return self.post(auth)
-
-    @doc(
-        description='Log Out Endpoint.',
-        tags=['Delete', 'Logout']
-    )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @marshal_with(LogoutResponse)
-    @must_login
-    def delete(self, auth):
-        return self.post(auth)

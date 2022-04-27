@@ -19,7 +19,7 @@ class GetReferralCode(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['Find', 'Read', 'Get', 'Referral']
+        tags=['Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -32,17 +32,3 @@ class GetReferralCode(MethodResource, Resource):
     def get(self, auth):
         return self.referral_code.get(auth)
 
-    @doc(
-        description='Get Referral Code of User Information Endpoint.',
-        tags=['Find', 'Read', 'Post', 'Referral']
-    )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @marshal_with(GetReferralCodeResponse)
-    @must_login
-    def post(self, auth):
-        return self.get(auth)

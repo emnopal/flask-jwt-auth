@@ -32,14 +32,8 @@ class LoginResponse(Schema):
 class LoginAPI(MethodResource, Resource):
     login = LoginAPI()
 
-    @doc(description='Login Endpoint.', tags=['Create', 'Login', 'Post'])
+    @doc(description='Login Endpoint.', tags=['Session'])
     @use_kwargs(LoginRequestPost, location='json')
     @marshal_with(LoginResponse)
     def post(self):
         return self.login.post()
-
-    @doc(description='Login Endpoint.', tags=['Create', 'Login', 'Get'])
-    @use_kwargs(LoginRequestGet, location='cookies')
-    @marshal_with(LoginResponse)
-    def get(self):
-        return self.login.get()

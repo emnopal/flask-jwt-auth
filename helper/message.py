@@ -1,6 +1,5 @@
 from flask import jsonify, make_response, request
 
-
 def response_message(status_code, status, message="", data=None):
     if data is None:
         return make_response(

@@ -1,6 +1,5 @@
 import jwt
 import datetime
-
 from src import app
 
 def encode_auth_token(username):

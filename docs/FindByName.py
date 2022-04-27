@@ -24,7 +24,7 @@ class FindByName(MethodResource, Resource):
 
     @doc(
         description='Get Name of User Information Endpoint.',
-        tags=['Find', 'Read', 'Get', 'Profile']
+        tags=['Session', 'User']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -39,21 +39,3 @@ class FindByName(MethodResource, Resource):
     @must_login
     def get(self, auth):
         return self.find_by_name.get(auth)
-
-    @doc(
-        description='Get Name of User Information Endpoint.',
-        tags=['Find', 'Read', 'Post', 'Profile']
-    )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @use_kwargs({
-        'name': fields.Str(required=True, description="Argument for find user by name")
-    }, location='args')
-    @marshal_with(GetNameResponse)
-    @must_login
-    def post(self, auth):
-        return self.get(auth)

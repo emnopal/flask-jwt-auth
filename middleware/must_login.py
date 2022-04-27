@@ -1,5 +1,5 @@
-from helper.message import response_message
-from helper.decode_auth_token import decode_auth_token
+from helper import response_message
+from helper import decode_auth_token
 from flask import request
 
 
@@ -11,8 +11,7 @@ def must_login(func):
             try:
                 auth_token = auth_header.split(" ")[1]
             except IndexError:
-                return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login '
-                                                     'or register to continue.')
+                return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login or register to continue.')
         else:
             auth_token = ''
         if auth_token and auth_cookie and auth_token == auth_cookie:

@@ -22,7 +22,7 @@ class CurrentSessionResponse(Schema):
 class CurrentSession(MethodResource, Resource):
     current_session = CurrentSession()
 
-    @doc(description='Current Session Endpoint.', tags=['Read', 'Session', 'Get'])
+    @doc(description='Current Session Endpoint.', tags=['Session', 'User'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
@@ -36,18 +36,3 @@ class CurrentSession(MethodResource, Resource):
     @must_login
     def get(self, auth):
         return self.current_session.get(auth)
-
-    @doc(description='Current Session Endpoint.', tags=['Read', 'Session', 'Post'])
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @use_kwargs({
-        'decode': fields.Str(required=True, description="Argument from URL for decoded JWT", default=None)
-    }, location='args')
-    @marshal_with(CurrentSessionResponse)
-    @must_login
-    def post(self, auth):
-        return self.get(auth)

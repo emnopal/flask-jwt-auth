@@ -23,33 +23,7 @@ class UpdateUserInformationResponse(Schema):
 class UpdateUserInformation(MethodResource, Resource):
     update_user_information = UpdateUserInformation()
 
-    @doc(description='Update User Information Endpoint.', tags=['Update', 'Post', 'Profile'])
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @use_kwargs(UpdateUserInformationRequest, location='json')
-    @marshal_with(UpdateUserInformationResponse)
-    @must_login
-    def post(self, auth):
-        return self.update_user_information.post(auth)
-
-    @doc(description='Update User Information Endpoint.', tags=['Update', 'Put', 'Profile'])
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @use_kwargs(UpdateUserInformationRequest, location='json')
-    @marshal_with(UpdateUserInformationResponse)
-    @must_login
-    def put(self, auth):
-        return self.post(auth)
-
-    @doc(description='Update User Information Endpoint.', tags=['Update', 'Patch', 'Profile'])
+    @doc(description='Update User Information Endpoint.', tags=['Session', 'User', 'Profile'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')

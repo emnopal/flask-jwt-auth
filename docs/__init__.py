@@ -31,42 +31,49 @@ app.config.update({
     'APISPEC_SWAGGER_UI_URL': '/docs'  # URI to access UI of API Doc
 })
 
+ENDPOINT_DOCS = '/api'
 
-@app.route('/', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
-@app.route('/api', methods=['GET', 'POST', 'PUT', 'DELETE', 'PATCH'])
+@app.route('/', methods=['GET', 'POST', 'PATCH'])
+@app.route('/api', methods=['GET', 'POST', 'PATCH'])
 def redirect_to_json_api():
-    return redirect('/docs/json')
+    return redirect(f'{ENDPOINT_DOCS}/json')
 
 docs = FlaskApiSpec(app)
 api = Api(app)
 
-api.add_resource(RegisterAPI, '/auth/register', methods=['POST'], endpoint='register_docs')
+api.add_resource(RegisterAPI, f'{ENDPOINT_DOCS}/auth/register', methods=['POST'], endpoint='register_docs')
 docs.register(RegisterAPI, endpoint='register_docs')
 
-api.add_resource(LoginAPI, '/auth/login', methods=['POST'], endpoint='login_docs')
+api.add_resource(LoginAPI, f'{ENDPOINT_DOCS}/auth/login', methods=['POST'], endpoint='login_docs')
 docs.register(LoginAPI, endpoint='login_docs')
-api.add_resource(UserAPI, '/user', methods=['GET', 'POST'], endpoint='user_docs')
+
+api.add_resource(UserAPI, f'{ENDPOINT_DOCS}/user', methods=['POST'], endpoint='user_docs')
 docs.register(UserAPI, endpoint='user_docs')
-api.add_resource(FindByName, '/user/get', methods=['GET', 'POST'], endpoint='get_user_docs')
+
+api.add_resource(FindByName, f'{ENDPOINT_DOCS}/user/get', methods=['POST'], endpoint='get_user_docs')
 docs.register(FindByName, endpoint='get_user_docs')
-api.add_resource(LogoutAPI, '/auth/logout', methods=['GET', 'POST', 'DELETE'], endpoint='logout_docs')
+
+api.add_resource(LogoutAPI, f'{ENDPOINT_DOCS}/auth/logout', methods=['POST'], endpoint='logout_docs')
 docs.register(LogoutAPI, endpoint='logout_docs')
-api.add_resource(CurrentSession, '/session', methods=['GET', 'POST'], endpoint='session_docs')
+
+api.add_resource(CurrentSession, f'{ENDPOINT_DOCS}/session', methods=['GET'], endpoint='session_docs')
 docs.register(CurrentSession, endpoint='session_docs')
-api.add_resource(UpdateUserInformation, '/user/update', methods=['POST', 'PUT', 'PATCH'],
-                 endpoint='docs_update_user_information')
+
+api.add_resource(UpdateUserInformation, f'{ENDPOINT_DOCS}/user/update', methods=['PATCH'], endpoint='docs_update_user_information')
 docs.register(UpdateUserInformation, endpoint='docs_update_user_information')
-api.add_resource(UpdatePassword, '/user/update/password', methods=['POST', 'PUT', 'PATCH'],
-                 endpoint='docs_update_password')
+
+api.add_resource(UpdatePassword, f'{ENDPOINT_DOCS}/user/update/password', methods=['PATCH'], endpoint='docs_update_password')
 docs.register(UpdatePassword, endpoint='docs_update_password')
-api.add_resource(
-    UpdateUsername, '/user/update/username', methods=['POST', 'PUT', 'PATCH'], endpoint='docs_update_username')
+
+api.add_resource(UpdateUsername, f'{ENDPOINT_DOCS}/user/update/username', methods=['PATCH'], endpoint='docs_update_username')
 docs.register(UpdateUsername, endpoint='docs_update_username')
-api.add_resource(GetHeroName, '/hero', methods=['POST', 'GET'], endpoint='docs_hero')
+
+api.add_resource(GetHeroName, f'{ENDPOINT_DOCS}/hero', methods=['GET'], endpoint='docs_hero')
 docs.register(GetHeroName, endpoint='docs_hero')
-api.add_resource(GetReferralCode, '/referral', methods=['POST', 'GET'], endpoint='referral_docs')
+
+api.add_resource(GetReferralCode, f'{ENDPOINT_DOCS}/referral', methods=['GET'], endpoint='referral_docs')
 docs.register(GetReferralCode, endpoint='referral_docs')
-api.add_resource(
-    ValidateReferralCode, '/referral/validate', methods=['POST', 'GET'], endpoint='referral_validate_docs')
+
+api.add_resource(ValidateReferralCode, f'{ENDPOINT_DOCS}/referral/validate', methods=['POST', 'GET'], endpoint='referral_validate_docs')
 docs.register(ValidateReferralCode, endpoint='referral_validate_docs')
 

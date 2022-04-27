@@ -22,7 +22,7 @@ class ValidateReferralCode(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['Validate', 'Read', 'Post', 'Referral']
+        tags=['Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -38,7 +38,7 @@ class ValidateReferralCode(MethodResource, Resource):
 
     @doc(
         description='Get Referral Code of User Information Endpoint.',
-        tags=['Validate', 'Read', 'Get', 'Referral']
+        tags=['Referral']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")

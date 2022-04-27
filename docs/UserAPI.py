@@ -25,19 +25,7 @@ class UserResponse(Schema):
 class UserAPI(MethodResource, Resource):
     get_user = UserAPI()
 
-    @doc(description='Get User Information Endpoint.', tags=['Read', 'Get', 'Profile'])
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @marshal_with(UserResponse)
-    @must_login
-    def get(self, auth):
-        return self.get_user.get(auth)
-
-    @doc(description='Get User Information Endpoint.', tags=['Read', 'Post', 'Profile'])
+    @doc(description='Get User Information Endpoint.', tags=['Session', 'User'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')

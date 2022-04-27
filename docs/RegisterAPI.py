@@ -24,7 +24,7 @@ class RegisterResponse(Schema):
 class RegisterAPI(MethodResource, Resource):
     register = RegisterAPI()
 
-    @doc(description='Register Endpoint.', tags=['Create', 'Register', 'Post'])
+    @doc(description='Register Endpoint.', tags=['Session', 'Register'])
     @use_kwargs(RegisterRequest, location='json')
     @marshal_with(RegisterResponse)
     def post(self):

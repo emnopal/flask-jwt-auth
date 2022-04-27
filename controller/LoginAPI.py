@@ -1,10 +1,10 @@
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
-from helper.message import response_message
+from helper import response_message
 from model import User
 from controller import bcrypt
-from helper.encode_auth_token import encode_auth_token
+from helper import encode_auth_token
 
 
 class LoginAPI(MethodResource, Resource):
@@ -26,12 +26,3 @@ class LoginAPI(MethodResource, Resource):
                 return response_message(404, 'fail', 'User does not exist or username or password not match.')
         except Exception as e:
             return response_message(401, 'fail', f'Username or password not match. {e}')
-
-    def get(self):
-        if request.cookies.get('app_session'):
-            data = {
-                'auth_token': request.cookies.get('app_session')
-            }
-            return response_message(200, 'success', 'Successfully logged in.', data)
-        else:
-            return response_message(401, 'fail', 'Session does not exists, Please login.')

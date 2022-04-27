@@ -19,7 +19,7 @@ class GetHeroName(MethodResource, Resource):
 
     @doc(
         description='Get Hero Name and Properties Endpoint.',
-        tags=['Hero', 'Get', 'Name', 'Find']
+        tags=['Hero']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -34,21 +34,3 @@ class GetHeroName(MethodResource, Resource):
     @must_login
     def get(self, auth):
         return self.get_hero_name.get(auth)
-
-    @doc(
-        description='Get Name of User Information Endpoint.',
-        tags=['Hero', 'Post', 'Name', 'Find']
-    )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
-        'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
-    }, location='headers')
-    @use_kwargs({
-        'q': fields.Str(required=True, description="Argument for find hero by name")
-    }, location='args')
-    @marshal_with(GetHeroResponse)
-    @must_login
-    def post(self, auth):
-        return self.get(auth)

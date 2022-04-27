@@ -1,8 +1,8 @@
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
-from helper.message import response_message
-from middleware.must_login import must_login
+from helper import response_message
+from middleware import must_login
 from model import User
 from controller import db, bcrypt
 
@@ -10,7 +10,7 @@ from controller import db, bcrypt
 class UpdateUserInformation(MethodResource, Resource):
 
     @must_login
-    def post(self, auth):
+    def patch(self, auth):
         post_data = request.get_json()
         try:
             user = User.query.filter_by(username=post_data.get('username')).first()
@@ -30,10 +30,3 @@ class UpdateUserInformation(MethodResource, Resource):
         except Exception as e:
             return response_message(500, 'fail', f'Some error occurred. Please try again. {e}')
 
-    @must_login
-    def put(self, auth):
-        return self.post(auth)
-
-    @must_login
-    def patch(self, auth):
-        return self.post(auth)
