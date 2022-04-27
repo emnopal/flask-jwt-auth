@@ -1,11 +1,12 @@
+from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
 from helper import response_message
-from middleware import must_login
 from model import User
+from middleware import must_login
 
 
-class UserAPI(MethodResource, Resource):
+class GetCurrentUser(MethodResource, Resource):
 
     @must_login
     def get(self, auth):
@@ -15,6 +16,8 @@ class UserAPI(MethodResource, Resource):
             'name': user.name,
             'email': user.email,
             'referral_code': user.referral_code,
-            'registered_on': user.registered_on
+            'registered_on': user.registered_on,
+            'auth_token': auth
         }
-        return response_message(200, 'success', 'Successfully get user data.', data)
+        return response_message(200, 'success', 'Successfully get session data.', data)
+

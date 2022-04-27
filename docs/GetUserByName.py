@@ -1,25 +1,24 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
 from marshmallow import Schema, fields
+from controller import GetUserByName
+from middleware import must_login
 
-from controller import GetHeroName
-from middleware.must_login import must_login
 
-
-class GetHeroResponse(Schema):
+class GetUserByNameResponse(Schema):
     message = fields.Str(description="Response message")
     status = fields.Str(description="Response status")
     status_code = fields.Int(description="Response status code")
     method = fields.Str(description="Response request method")
-    data = fields.Dict(description="Response for Hero Name")
+    data = fields.Dict(keys=fields.Str, values=fields.Str, description='Response data')
 
 
-class GetHeroName(MethodResource, Resource):
-    get_hero_name = GetHeroName()
+class GetUserByName(MethodResource, Resource):
+    find_by_name = GetUserByName()
 
     @doc(
-        description='Get Hero Name and Properties Endpoint.',
-        tags=['Hero']
+        description='Get Name of User Information Endpoint.',
+        tags=['Session', 'User']
     )
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
@@ -28,9 +27,11 @@ class GetHeroName(MethodResource, Resource):
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @use_kwargs({
-        'q': fields.Str(required=True, description="Argument for find hero by their name")
+        'name': fields.Str(description="Argument for find user by name"),
+        'username': fields.Str(description="Argument for find user by username"),
+        'mail': fields.Str(description="Argument for find user by email"),
     }, location='args')
-    @marshal_with(GetHeroResponse)
+    @marshal_with(GetUserByNameResponse)
     @must_login
     def get(self, auth):
-        return self.get_hero_name.get(auth)
+        return self.find_by_name.get(auth)

@@ -1,32 +1,29 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
 from marshmallow import Schema, fields
+from controller import GetCurrentUser
+from middleware import must_login
 
-from controller import LogoutAPI
-from middleware.must_login import must_login
 
-
-class LogoutResponse(Schema):
+class GetCurrentUserResponse(Schema):
     message = fields.Str(description="Response message")
     status = fields.Str(description="Response status")
     status_code = fields.Int(description="Response status code")
     method = fields.Str(description="Response request method")
+    data = fields.Dict(keys=fields.Str, values=fields.Str, description='Response data')
 
 
-class LogoutAPI(MethodResource, Resource):
-    logout = LogoutAPI()
+class GetCurrentUser(MethodResource, Resource):
+    current_session = GetCurrentUser()
 
-    @doc(
-        description='Log Out Endpoint.',
-        tags=['Session']
-    )
+    @doc(description='Get Current Logged in User', tags=['Session', 'User'])
     @use_kwargs({
         'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
     }, location='cookies')
     @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
-    @marshal_with(LogoutResponse)
+    @marshal_with(GetCurrentUserResponse)
     @must_login
-    def post(self, auth):
-        return self.logout.post(auth)
+    def get(self, auth):
+        return self.current_session.get(auth)

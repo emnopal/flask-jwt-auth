@@ -14,10 +14,10 @@ class UpdateUserInformationRequest(Schema):
 
 
 class UpdateUserInformationResponse(Schema):
-    message = fields.Str(required=True, description="Response message")
-    status = fields.Str(required=True, description="Response status")
-    status_code = fields.Int(required=True, description="Response status code")
-    method = fields.Str(required=True, default="GET", description="Response request method")
+    message = fields.Str(description="Response message")
+    status = fields.Str(description="Response status")
+    status_code = fields.Int(description="Response status code")
+    method = fields.Str(description="Response request method")
 
 
 class UpdateUserInformation(MethodResource, Resource):

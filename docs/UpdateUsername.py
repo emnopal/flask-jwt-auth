@@ -1,13 +1,8 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
 from marshmallow import Schema, fields
-
 from controller import UpdateUsername
 from middleware.must_login import must_login
-
-
-class NewSessionData(Schema):
-    new_auth_token = fields.Str(required=True, description="Response for New Auth Token after Change Username")
 
 
 class UpdateUsernameRequest(Schema):
@@ -17,11 +12,11 @@ class UpdateUsernameRequest(Schema):
 
 
 class UpdateUsernameResponse(Schema):
-    message = fields.Str(required=True, description="Response message")
-    status = fields.Str(required=True, description="Response status")
-    status_code = fields.Int(required=True, description="Response status code")
-    method = fields.Str(required=True, default="GET", description="Response request method")
-    data = fields.Nested(NewSessionData())
+    message = fields.Str(description="Response message")
+    status = fields.Str(description="Response status")
+    status_code = fields.Int(description="Response status code")
+    method = fields.Str(description="Response request method")
+    data = fields.Dict(keys=fields.Str, values=fields.Str, description='Response data')
 
 
 class UpdateUsername(MethodResource, Resource):

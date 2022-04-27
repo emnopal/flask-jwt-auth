@@ -13,7 +13,7 @@ database_test = os.getenv('DB_TEST')
 
 postgres_conn = f'postgresql://{username}:{password}@{host}:{port}/'
 
-cookie_name = os.getenv('COOKIE_KEY')
+cookie_name = 'app_session'
 
 
 class BaseConfig:
@@ -21,7 +21,8 @@ class BaseConfig:
     DEBUG = False
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    PORT = os.getenv('APP_PORT')
+    APP_PORT = os.getenv('APP_PORT')
+    APP_HOST = os.getenv('APP_HOST')
 
 
 class DevelopmentConfig(BaseConfig):
@@ -39,6 +40,5 @@ class TestingConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
-    SECRET_KEY = os.getenv('SECRET_KEY')
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = postgres_conn + database
