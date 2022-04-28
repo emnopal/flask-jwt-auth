@@ -12,10 +12,11 @@ from controller import (
     GetHeroName,
     ValidateReferralCode,
     GetCurrentUser,
-    GetUserByName
+    GetUserByName,
+    CheckReferralCode
 )
 
-ENDPOINT = '/api'
+ENDPOINT = app.config.get('APP_PREFIX')
 
 api = Api(app)
 
@@ -34,4 +35,5 @@ api.add_resource(UpdateUsername, f'{ENDPOINT}/auth/user/username', methods=['PAT
 
 api.add_resource(GetUserByName, f'{ENDPOINT}/user', methods=['GET'], endpoint='GetUser')
 api.add_resource(GetHeroName, f'{ENDPOINT}/hero', methods=['GET'], endpoint='GetHero')
-api.add_resource(ValidateReferralCode, f'{ENDPOINT}/referral', methods=['POST', 'GET'], endpoint='ValidateReferralCode')
+api.add_resource(CheckReferralCode, f'{ENDPOINT}/referral', methods=['POST', 'GET'], endpoint='CheckReferralCode')
+api.add_resource(ValidateReferralCode, f'{ENDPOINT}/referral/validate', methods=['POST', 'GET'], endpoint='ValidateReferralCode')

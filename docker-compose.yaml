@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   db:
-    image: postgres:9.6.5
+    image: postgres:latest
     volumes:
       - "dbdata:/var/lib/postgresql/data"
     env_file:
@@ -31,7 +31,7 @@ services:
     expose:
       - 5090
   nginx:
-    image: nginx:1.13.5
+    image: nginx:latest
     volumes:
       - ./conf.d:/etc/nginx/conf.d
     networks:

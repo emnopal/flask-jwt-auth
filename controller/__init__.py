@@ -10,3 +10,4 @@ from controller.UpdatePassword import UpdatePassword
 from controller.UpdateUserInformation import UpdateUserInformation
 from controller.UpdateUsername import UpdateUsername
 from controller.ValidateReferralCode import ValidateReferralCode
+from controller.CheckReferralCode import CheckReferralCode

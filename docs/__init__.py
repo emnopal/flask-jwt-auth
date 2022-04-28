@@ -17,6 +17,7 @@ from docs.UpdateUserInformation import UpdateUserInformation
 from docs.UpdateUsername import UpdateUsername
 from docs.ValidateReferralCode import ValidateReferralCode
 from docs.GetUserByName import GetUserByName
+from docs.CheckReferralCode import CheckReferralCode
 
 app.config.update({
     'APISPEC_SPEC': APISpec(
@@ -29,7 +30,7 @@ app.config.update({
     'APISPEC_SWAGGER_UI_URL': '/docs'  # URI to access UI of API Doc
 })
 
-ENDPOINT_DOCS = '/api'
+ENDPOINT_DOCS = app.config.get('APP_PREFIX')
 
 @app.route('/', methods=['GET', 'POST', 'PATCH'])
 @app.route('/api', methods=['GET', 'POST', 'PATCH'])
@@ -66,6 +67,9 @@ docs.register(GetUserByName, endpoint='DocsGetUserByName')
 api.add_resource(GetHeroName, f'{ENDPOINT_DOCS}/hero', methods=['GET'], endpoint='DocsGetHero')
 docs.register(GetHeroName, endpoint='DocsGetHero')
 
-api.add_resource(ValidateReferralCode, f'{ENDPOINT_DOCS}/referral', methods=['POST', 'GET'], endpoint='DocsValidateReferralCode')
+api.add_resource(CheckReferralCode, f'{ENDPOINT_DOCS}/referral', methods=['POST', 'GET'], endpoint='DocsCheckReferralCode')
+docs.register(CheckReferralCode, endpoint='DocsCheckReferralCode')
+
+api.add_resource(ValidateReferralCode, f'{ENDPOINT_DOCS}/referral/validate', methods=['POST', 'GET'], endpoint='DocsValidateReferralCode')
 docs.register(ValidateReferralCode, endpoint='DocsValidateReferralCode')
 

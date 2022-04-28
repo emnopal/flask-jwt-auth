@@ -2,11 +2,11 @@ from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
 from marshmallow import Schema, fields
 
-from controller import ValidateReferralCode
+from controller import CheckReferralCode
 from middleware.must_login import must_login
 
 
-class ValidateReferralCodeResponse(Schema):
+class CheckReferralCodeResponse(Schema):
     message = fields.Str(description="Response message")
     status = fields.Str(description="Response status")
     status_code = fields.Int(description="Response status code")
@@ -14,15 +14,15 @@ class ValidateReferralCodeResponse(Schema):
     data = fields.Str(description='Response data')
 
 
-class ValidateReferralCodeRequest(Schema):
+class CheckReferralCodeRequest(Schema):
     referral_code = fields.Str(required=True, description="Input Field for Referral Code, this is required")
 
 
-class ValidateReferralCode(MethodResource, Resource):
-    valid_referral_code = ValidateReferralCode()
+class CheckReferralCode(MethodResource, Resource):
+    valid_referral_code = CheckReferralCode()
 
     @doc(
-        description='Validated Referral Code, once ref code is validated, user can\'t use the ref code twice.',
+        description='Get Referral Code of User Information Endpoint.',
         tags=['Referral']
     )
     @use_kwargs({
@@ -31,14 +31,14 @@ class ValidateReferralCode(MethodResource, Resource):
     @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
-    @use_kwargs(ValidateReferralCodeRequest, location='json')
-    @marshal_with(ValidateReferralCodeResponse)
+    @use_kwargs(CheckReferralCodeRequest, location='json')
+    @marshal_with(CheckReferralCodeResponse)
     @must_login
     def post(self, auth):
         return self.valid_referral_code.post(auth)
 
     @doc(
-        description='Validated Referral Code, once ref code is validated, user can\'t use the ref code twice.',
+        description='Get Referral Code of User Information Endpoint.',
         tags=['Referral']
     )
     @use_kwargs({
@@ -50,7 +50,7 @@ class ValidateReferralCode(MethodResource, Resource):
     @use_kwargs({
         'ref': fields.Str(required=True, description="Argument for validate referral code")
     }, location='args')
-    @marshal_with(ValidateReferralCodeResponse)
+    @marshal_with(CheckReferralCodeResponse)
     @must_login
     def get(self, auth):
         return self.valid_referral_code.get(auth)

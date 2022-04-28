@@ -12,13 +12,13 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-if os.getenv('ENV').lower() == 'development':
+if os.getenv('APP_ENV').lower() == 'development':
     app_settings = DevelopmentConfig
     app.config.from_object(app_settings)
-elif os.getenv('ENV').lower() == 'testing':
+elif os.getenv('APP_ENV').lower() == 'testing':
     app_settings = TestingConfig
     app.config.from_object(app_settings)
-elif os.getenv('ENV').lower() == 'production':
+elif os.getenv('APP_ENV').lower() == 'production':
     app_settings = ProductionConfig
     app.config.from_object(app_settings)
 else:

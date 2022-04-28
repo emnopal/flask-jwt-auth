@@ -1,12 +1,13 @@
 from helper import response_message
 from helper import decode_auth_token
 from flask import request
+from src import app
 
 
 def must_login(func):
     def wrapper(self, *args, **kwargs):
         auth_header = request.headers.get('Authorization')
-        auth_cookie = request.cookies.get('app_session')
+        auth_cookie = request.cookies.get(app.config.get('COOKIE_NAME'))
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
