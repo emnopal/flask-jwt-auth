@@ -33,7 +33,6 @@ class GetUserByName(MethodResource, Resource):
                     'username': user.username,
                     'name': user.name,
                     'email': user.email,
-                    'referral_code': user.referral_code,
                     'registered_on': user.registered_on
                 }
             return response_message(200, 'success', 'Successfully get user data.', data)
@@ -45,7 +44,6 @@ class GetUserByName(MethodResource, Resource):
                 'username': user.username,
                 'name': user.name,
                 'email': user.email,
-                'referral_code': user.referral_code,
                 'registered_on': user.registered_on
             }
         return response_message(200, 'success', 'Successfully get user data.', data)
