@@ -7,17 +7,17 @@ from flask_apispec import FlaskApiSpec
 from werkzeug.utils import redirect
 from flask_restful import Api
 
-from docs.GetCurrentUser import GetCurrentUser
-from docs.GetHeroName import GetHeroName
-from docs.LoginAPI import LoginAPI
-from docs.LogoutAPI import LogoutAPI
-from docs.RegisterAPI import RegisterAPI
-from docs.UpdatePassword import UpdatePassword
-from docs.UpdateUserInformation import UpdateUserInformation
-from docs.UpdateUsername import UpdateUsername
-from docs.ValidateReferralCode import ValidateReferralCode
-from docs.GetUserByName import GetUserByName
-from docs.CheckReferralCode import CheckReferralCode
+from .GetCurrentUser import GetCurrentUser
+from .GetHeroName import GetHeroName
+from .LoginAPI import LoginAPI
+from .LogoutAPI import LogoutAPI
+from .RegisterAPI import RegisterAPI
+from .UpdatePassword import UpdatePassword
+from .UpdateUserInformation import UpdateUserInformation
+from .UpdateUsername import UpdateUsername
+from .ValidateReferralCode import ValidateReferralCode
+from .GetUserByName import GetUserByName
+from .CheckReferralCode import CheckReferralCode
 
 app.config.update({
     'APISPEC_SPEC': APISpec(

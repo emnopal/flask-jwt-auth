@@ -1,15 +1,15 @@
 from model import app, db, bcrypt
 
-from controller.auth import LoginAPI
-from controller.auth import LogoutAPI
-from controller.auth import RegisterAPI
+from .auth import LoginAPI
+from .auth import LogoutAPI
+from .auth import RegisterAPI
 
-from controller.user import UpdatePassword
-from controller.user import UpdateUserInformation
-from controller.user import UpdateUsername
-from controller.user import GetCurrentUser
+from .user import UpdatePassword
+from .user import UpdateUserInformation
+from .user import UpdateUsername
+from .user import GetCurrentUser
 
-from controller.GetUserByName import GetUserByName
-from controller.GetHeroName import GetHeroName
-from controller.ValidateReferralCode import ValidateReferralCode
-from controller.CheckReferralCode import CheckReferralCode
+from .GetUserByName import GetUserByName
+from .GetHeroName import GetHeroName
+from .ValidateReferralCode import ValidateReferralCode
+from .CheckReferralCode import CheckReferralCode

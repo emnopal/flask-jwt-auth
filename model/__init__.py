@@ -1,3 +1,3 @@
 from src import app, db, bcrypt
-from model.User import User
-from model.BlacklistToken import BlacklistToken
+from .User import User
+from .BlacklistToken import BlacklistToken
