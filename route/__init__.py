@@ -1,6 +1,6 @@
 from flask_restful import Api
 from controller import app
-from helper.message import response_message
+from helper import response_message
 
 from controller import (
     RegisterAPI,
