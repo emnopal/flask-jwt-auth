@@ -17,7 +17,7 @@ class GetCurrentUser(MethodResource, Resource):
             'email': user.email,
             'referral_code': user.referral_code,
             'registered_on': user.registered_on,
-            'auth_token': auth
+            'auth_token': auth['auth_token']
         }
         return response_message(200, 'success', 'Successfully get session data.', data)
 

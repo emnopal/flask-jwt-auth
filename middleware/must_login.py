@@ -6,8 +6,9 @@ from src import app
 
 def must_login(func):
     def wrapper(self, *args, **kwargs):
+        conf = app.config
         auth_header = request.headers.get('Authorization')
-        auth_cookie = request.cookies.get(app.config.get('COOKIE_NAME'))
+        auth_cookie = request.cookies.get(conf.get('COOKIE_NAME'))
         if auth_header:
             try:
                 auth_token = auth_header.split(" ")[1]
@@ -19,6 +20,7 @@ def must_login(func):
             resp = decode_auth_token(auth_token)
             if not isinstance(resp, str):
                 auth_data = {
+                    'auth_token': auth_token,
                     'auth_header': auth_header,
                     'auth_cookie': auth_cookie,
                     'resp': resp,

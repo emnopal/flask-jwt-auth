@@ -24,6 +24,8 @@ class BaseConfig:
     APP_ENV = os.getenv('APP_ENV')
     APP_PREFIX = '/api'
 
+    TOKEN_EXPIRED = 60*24*5
+
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True

@@ -2,10 +2,10 @@ import jwt
 import datetime
 from src import app
 
-def encode_auth_token(username):
+def encode_auth_token(username, expired):
     try:
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=expired),
             'iat': datetime.datetime.utcnow(),
             'sub': {
                 'username': username
