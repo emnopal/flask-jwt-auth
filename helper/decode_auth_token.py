@@ -8,10 +8,10 @@ def decode_auth_token(auth_token):
         payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'), algorithms='HS256')
         is_blacklisted_token = check_blacklist(auth_token)
         if is_blacklisted_token:
-            return response_message(401, 'fail', 'Token blacklisted. Please log in again.')
+            return 'Token blacklisted. Please log in again.'
         else:
             return payload
     except jwt.ExpiredSignatureError:
-        return response_message(401, 'fail', 'Signature expired. Please log in again.')
+        return 'Signature expired. Please log in again.'
     except jwt.InvalidTokenError as e:
-        return response_message(401, 'fail', f'Invalid token. Please log in again. {e}')
+        return f'Invalid token. Please log in again. {e}'
