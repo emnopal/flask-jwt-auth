@@ -1,0 +1,20 @@
+[MASTER]
+disable=
+    C0114, # missing-module-docstring
+    C0115, # missing-class-docstring
+    C0116, # missing-function-docstring
+    R0903, # too-few-public-methods
+    C0103, # invalid-name
+    R0201, # no-self-use
+    C0305, # trailing-newlines
+    W0613, # unused-argument
+    R1705, # no-else-return
+    W0703, # broad-except
+    E1101, # no-member
+    C0301, # line-too-long
+    E0102, # class-already-defined
+    R0801, # similar-lines
+    R1710, # inconsistent-return-statements
+    W0702, # bare-except
+    W0611, # unused-import
+    R0401, # cyclic-import
