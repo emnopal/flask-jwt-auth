@@ -1,9 +1,10 @@
+import datetime
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
 from helper import response_message
 from model import User
-from controller import bcrypt, app
+from controller import bcrypt, app, db
 from helper import encode_auth_token
 
 
@@ -16,6 +17,9 @@ class LoginAPI(MethodResource, Resource):
             if user and bcrypt.check_password_hash(user.password, post_data.get('password')):
                 auth_token = encode_auth_token(user.username, int(conf.get('TOKEN_EXPIRED')))
                 if auth_token:
+                    user.last_logged_in = datetime.datetime.now()
+                    user.last_logged_out = None
+                    db.session.commit()
                     data = {
                         'auth_token': auth_token,
                         'referral_code': user.referral_code

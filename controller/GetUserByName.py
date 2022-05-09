@@ -5,6 +5,16 @@ from helper import response_message
 from model import User
 from middleware import must_login
 
+def GetUserData(user, num, data={}):
+    data[f'user_{num}'] = {
+        'username': user.username,
+        'name': user.name,
+        'email': user.email,
+        'registered_on': user.registered_on,
+        'status': 'online' if user.last_logged_in else 'offline',
+        'last_online': user.last_logged_out if user.last_logged_out else 'now'
+    }
+    return data
 
 class GetUserByName(MethodResource, Resource):
 
@@ -12,7 +22,6 @@ class GetUserByName(MethodResource, Resource):
     def get(self, auth):
 
         args = request.args
-        data = {}
 
         # Get user based by name or mail or username
         if args:
@@ -29,22 +38,13 @@ class GetUserByName(MethodResource, Resource):
                 result = User.query.filter(User.email.contains(by_mail)).all()
 
             for num, user in enumerate(result):
-                data[f'user_{num}'] = {
-                    'username': user.username,
-                    'name': user.name,
-                    'email': user.email,
-                    'registered_on': user.registered_on
-                }
+                data = GetUserData(user, num)
+
             return response_message(200, 'success', 'Successfully get user data.', data)
 
         # Return all user
         users = User.query.all()
         for num, user in enumerate(users):
-            data[f'user_{num}'] = {
-                'username': user.username,
-                'name': user.name,
-                'email': user.email,
-                'registered_on': user.registered_on
-            }
+            data = GetUserData(user, num)
         return response_message(200, 'success', 'Successfully get user data.', data)
 

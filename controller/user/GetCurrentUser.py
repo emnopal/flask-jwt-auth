@@ -17,7 +17,10 @@ class GetCurrentUser(MethodResource, Resource):
             'email': user.email,
             'referral_code': user.referral_code,
             'registered_on': user.registered_on,
-            'auth_token': auth['auth_token']
+            'auth_token': auth['auth_token'],
+            'status': 'online' if user.last_logged_in else 'offline',
+            'last_login': user.last_logged_in,
+            'last_logout': user.last_logged_out
         }
         return response_message(200, 'success', 'Successfully get session data.', data)
 
