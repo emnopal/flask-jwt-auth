@@ -5,7 +5,7 @@ from helper import response_message
 from model import User
 from middleware import must_login
 
-def GetUserData(user, num, data):
+def GetUserData(user, num):
     data = {}
     data[f'user_{num}'] = {
         'username': user.username,
