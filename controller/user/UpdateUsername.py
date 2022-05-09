@@ -1,11 +1,10 @@
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
-from helper import response_message
+from helper import response_message, encode_auth_token
 from middleware import must_login
 from model import User
 from controller import db, bcrypt, app
-from helper import encode_auth_token
 
 
 class UpdateUsername(MethodResource, Resource):

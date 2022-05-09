@@ -2,19 +2,10 @@ from flask_restful import Api
 from controller import app
 from helper import response_message
 
-from controller import (
-    RegisterAPI,
-    LoginAPI,
-    LogoutAPI,
-    UpdateUserInformation,
-    UpdatePassword,
-    UpdateUsername,
-    GetHeroName,
-    ValidateReferralCode,
-    GetCurrentUser,
-    GetUserByName,
+from controller import RegisterAPI, LoginAPI, LogoutAPI, UpdateUserInformation, \
+    UpdatePassword, UpdateUsername, GetHeroName, ValidateReferralCode, GetCurrentUser, GetUserByName, \
     CheckReferralCode
-)
+
 
 ENDPOINT = app.config.get('APP_PREFIX')
 

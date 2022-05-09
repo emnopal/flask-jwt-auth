@@ -1,6 +1,6 @@
-from helper import response_message
-from helper import decode_auth_token
 from flask import request
+from helper import response_message, decode_auth_token
+
 from src import app
 
 

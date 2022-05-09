@@ -1,11 +1,11 @@
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 
-from route import app
-
 from flask_apispec import FlaskApiSpec
 from werkzeug.utils import redirect
 from flask_restful import Api
+
+from route import app
 
 from .GetCurrentUser import GetCurrentUser
 from .GetHeroName import GetHeroName
@@ -35,7 +35,7 @@ ENDPOINT_DOCS = app.config.get('APP_PREFIX')
 @app.route('/', methods=['GET', 'POST', 'PATCH'])
 @app.route('/api', methods=['GET', 'POST', 'PATCH'])
 def redirect_to_json_api():
-    return redirect(f'/docs/json')
+    return redirect('/docs/json')
 
 docs = FlaskApiSpec(app)
 api = Api(app)

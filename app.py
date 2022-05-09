@@ -1,3 +1,5 @@
+# pylint: disable=missing-module-docstring
+
 import argparse
 import sys
 from docs import app

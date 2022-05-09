@@ -1,5 +1,6 @@
-import jwt
 import datetime
+import jwt
+
 from src import app
 
 def encode_auth_token(username, expired):

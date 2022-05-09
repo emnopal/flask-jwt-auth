@@ -1,7 +1,6 @@
 import jwt
 from src import app
 from . import check_blacklist
-from . import response_message
 
 def decode_auth_token(auth_token):
     try:

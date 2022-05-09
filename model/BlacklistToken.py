@@ -15,5 +15,5 @@ class BlacklistToken(db.Model):
         self.blacklisted_on = datetime.datetime.now()
 
     def __repr__(self):
-        return '<id: token: {}'.format(self.token)
+        return f'<id: token: {self.token}'
 

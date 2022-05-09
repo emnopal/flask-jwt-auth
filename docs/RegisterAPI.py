@@ -1,7 +1,5 @@
 from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
 from flask_restful import Resource
-from marshmallow import fields
-from flask import request
 from marshmallow import Schema, fields
 
 from controller import RegisterAPI
