@@ -61,7 +61,7 @@ Note: Change it to 8080 if you are using docker.<br>
 
 - Unit Testing
 - Logger
-- Fix Routing
+- Fix Routing [Done]
 - Add Redis
 - Add Async
 
