@@ -13,15 +13,15 @@ class RegisterAPI(MethodResource, Resource):
         if not user:
             try:
                 user = User(
-                    username=post_data.get('username'),
-                    password=post_data.get('password'),
+                    username=str(post_data.get('username')),
+                    password=str(post_data.get('password')),
                     email=check_mail(post_data.get('email')),
-                    name=post_data.get('name')
+                    name=str(post_data.get('name'))
                 )
                 db.session.add(user)
                 db.session.commit()
                 return response_message(201, 'success', 'Successfully registered.')
-            except:
+            except Exception:
                 return response_message(401, 'fail', 'Some error occurred. Please try again.')
         else:
             return response_message(202, 'fail', 'User already exists. Please Log in.')

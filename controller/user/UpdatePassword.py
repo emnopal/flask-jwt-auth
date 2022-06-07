@@ -13,12 +13,12 @@ class UpdatePassword(MethodResource, Resource):
     def patch(self, auth):
         post_data = request.get_json()
         try:
-            user = User.query.filter_by(username=post_data.get('username')).first()
+            user = User.query.filter_by(username=str(post_data.get('username'))).first()
             if user and user.username == auth['resp']['sub']['username']:
                 if bcrypt.check_password_hash(user.password, post_data.get('old_password')):
                     try:
                         user.password = bcrypt.generate_password_hash(
-                            post_data.get('new_password'), app.config.get('BCRYPT_LOG_ROUNDS')
+                            str(post_data.get('new_password')), app.config.get('BCRYPT_LOG_ROUNDS')
                         ).decode('utf-8')
                         db.session.commit()
                         return response_message(200, 'success', 'Successfully changed password.')

@@ -14,13 +14,13 @@ class UpdateUsername(MethodResource, Resource):
         post_data = request.get_json()
         conf = app.config
         try:
-            user = User.query.filter_by(username=post_data.get('old_username')).first()
+            user = User.query.filter_by(username=str(post_data.get('old_username'))).first()
             if user and user.username == auth['resp']['sub']['username']:
-                if bcrypt.check_password_hash(user.password, post_data.get('password')):
+                if bcrypt.check_password_hash(user.password, str(post_data.get('password'))):
                     try:
-                        user.username = post_data.get('new_username')
+                        user.username = str(post_data.get('new_username'))
                         db.session.commit()
-                        new_user = User.query.filter_by(username=post_data.get('new_username')).first()
+                        new_user = User.query.filter_by(username=str(post_data.get('new_username'))).first()
                         if new_user:
                             new_auth_token = encode_auth_token(new_user.username, int(conf.get('TOKEN_EXPIRED')))
                             data = {

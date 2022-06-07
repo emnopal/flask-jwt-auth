@@ -13,12 +13,12 @@ class UpdateUserInformation(MethodResource, Resource):
     def patch(self, auth):
         post_data = request.get_json()
         try:
-            user = User.query.filter_by(username=post_data.get('username')).first()
+            user = User.query.filter_by(username=str(post_data.get('username'))).first()
             if user and user.username == auth['resp']['sub']['username']:
-                if bcrypt.check_password_hash(user.password, post_data.get('password')):
+                if bcrypt.check_password_hash(user.password, str(post_data.get('password'))):
                     try:
-                        user.name = post_data.get('name')
-                        user.email = post_data.get('email')
+                        user.name = str(post_data.get('name'))
+                        user.email = str(post_data.get('email'))
                         db.session.commit()
                         return response_message(200, 'success', 'Successfully updated data.')
                     except:
