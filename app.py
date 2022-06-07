@@ -1,9 +1,9 @@
 # pylint: disable=missing-module-docstring
 
 import os
+import secrets
 import argparse
 import dotenv
-import secrets
 from docs import app
 from model import db
 
