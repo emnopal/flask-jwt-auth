@@ -3,6 +3,7 @@ from model import app, db, bcrypt
 from .auth import LoginAPI
 from .auth import LogoutAPI
 from .auth import RegisterAPI
+from .auth import RefreshJWTToken
 
 from .user import UpdatePassword
 from .user import UpdateUserInformation
