@@ -13,8 +13,8 @@ class LoginAPI(MethodResource, Resource):
         conf = app.config
         try:
             user = User.query.filter_by(username=str(post_data.get('username'))).first()
-            if user and bcrypt.check_password_hash(user.password, str(post_data.get('password'))):
-                auth_token = encode_auth_token(user.username, int(conf.get('TOKEN_EXPIRED')))
+            if user and bcrypt.check_password_hash(str(user.password), str(post_data.get('password'))):
+                auth_token = encode_auth_token(str(user.username), int(conf.get('TOKEN_EXPIRED')))
                 if auth_token:
                     user.last_logged_in = datetime.datetime.now()
                     user.last_logged_out = None

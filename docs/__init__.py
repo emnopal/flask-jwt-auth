@@ -7,17 +7,25 @@ from flask_restful import Api
 
 from route import app
 
-from .GetCurrentUser import GetCurrentUser
 from .GetHeroName import GetHeroName
-from .LoginAPI import LoginAPI
-from .LogoutAPI import LogoutAPI
-from .RegisterAPI import RegisterAPI
-from .UpdatePassword import UpdatePassword
-from .UpdateUserInformation import UpdateUserInformation
-from .UpdateUsername import UpdateUsername
 from .ValidateReferralCode import ValidateReferralCode
 from .GetUserByName import GetUserByName
 from .CheckReferralCode import CheckReferralCode
+
+from .auth import (
+    LoginAPI,
+    LogoutAPI,
+    RegisterAPI,
+    RefreshJWTToken
+)
+
+from .user import (
+    GetCurrentUser,
+    UpdatePassword,
+    UpdateUserInformation,
+    UpdateUsername
+)
+
 
 app.config.update({
     'APISPEC_SPEC': APISpec(
@@ -48,6 +56,9 @@ docs.register(LoginAPI, endpoint='DocsLogin')
 
 api.add_resource(LogoutAPI, f'{ENDPOINT_DOCS}/auth/logout', methods=['POST'], endpoint='DocsLogout')
 docs.register(LogoutAPI, endpoint='DocsLogout')
+
+api.add_resource(RefreshJWTToken, f'{ENDPOINT_DOCS}/auth/refresh', methods=['GET'], endpoint='DocsRefresh')
+docs.register(RefreshJWTToken, endpoint='DocsRefresh')
 
 api.add_resource(GetCurrentUser, f'{ENDPOINT_DOCS}/auth/user', methods=['GET'], endpoint='DocsGetAuthUser')
 docs.register(GetCurrentUser, endpoint='DocsGetAuthUser')
