@@ -21,9 +21,6 @@ if __name__ == '__main__':
     PORT = app.config.get('APP_PORT')
     DEBUG = app.config.get('DEBUG')
 
-    def run():
-        app.run(host=HOST, port=PORT, debug=DEBUG)
-
     if args.command:
         if args.command.lower() == 'migrate':
             db.create_all()
@@ -42,4 +39,4 @@ if __name__ == '__main__':
             parser.error('unknown staging status.')
 
     else:
-        run()
+        app.run(host=HOST, port=PORT, debug=DEBUG)
