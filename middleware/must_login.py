@@ -1,6 +1,6 @@
 from flask import request
 from helper import response_message, decode_auth_token
-
+from model import BlacklistToken
 from src import app
 
 
@@ -9,8 +9,10 @@ def must_login(func):
         auth_header = request.headers.get('Authorization')
         if auth_header:
             try:
+                blacklist_token = BlacklistToken.query.filter_by(token=auth_header).first()
+                if blacklist_token: raise ValueError()
                 auth_token = auth_header.split(" ")[1]
-            except IndexError:
+            except Exception as e:
                 return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login or register to continue.')
         else:
             auth_token = ''

@@ -6,4 +6,4 @@ def check_mail(email):
     if re.fullmatch(is_valid, email):
         return email
     else:
-        raise ValueError("Invalid mail")
+        raise ValueError("Invalid email")
