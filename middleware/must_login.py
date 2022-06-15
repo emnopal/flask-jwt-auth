@@ -9,9 +9,10 @@ def must_login(func):
         auth_header = request.headers.get('Authorization')
         if auth_header:
             try:
-                if BlacklistToken.query.filter_by(token=auth_header).first(): raise ValueError()
+                if BlacklistToken.query.filter_by(token=auth_header).first():
+                    raise ValueError()
                 auth_token = auth_header.split(" ")[1]
-            except Exception as e:
+            except Exception:
                 return response_message(401, 'fail', 'Bearer token malformed. Please provide a valid token or login or register to continue.')
         else:
             auth_token = ''
