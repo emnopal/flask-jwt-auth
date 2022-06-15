@@ -23,9 +23,7 @@ class LoginAPI(MethodResource, Resource):
                         'auth_token': auth_token,
                         'referral_code': user.referral_code
                     }
-                    res = response_message(200, 'success', 'Successfully logged in.', data)
-                    res.set_cookie(conf.get('COOKIE_NAME'), auth_token, max_age=60 * conf.get('TOKEN_EXPIRED'))
-                    return res
+                    return response_message(200, 'success', 'Successfully logged in.', data)
             else:
                 return response_message(404, 'fail', 'User does not exist or username or password not match.')
         except Exception as e:

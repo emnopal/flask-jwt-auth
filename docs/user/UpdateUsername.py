@@ -24,9 +24,6 @@ class UpdateUsername(MethodResource, Resource):
 
     @doc(description='Update Username Endpoint.', tags=['Session', 'Username', 'User'])
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @use_kwargs(UpdateUsernameRequest, location='json')

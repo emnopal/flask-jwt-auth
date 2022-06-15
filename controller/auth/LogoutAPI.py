@@ -19,9 +19,7 @@ class LogoutAPI(MethodResource, Resource):
             user.last_logged_in = None
             user.last_logged_out = datetime.datetime.now()
             db.session.commit()
-            res = response_message(200, 'success', 'Successfully logged out.')
-            res.set_cookie(app.config.get('COOKIE_NAME'), '', expires=0)
-            return res
+            return response_message(200, 'success', 'Successfully logged out.')
         except Exception as e:
             return response_message(500, 'fail', f'Internal Server Error, with error: {e}.')
 

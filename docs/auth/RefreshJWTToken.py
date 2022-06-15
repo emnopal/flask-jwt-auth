@@ -21,9 +21,6 @@ class RefreshJWTToken(MethodResource, Resource):
         tags=['Session']
     )
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(RefreshJWTTokenResponse)

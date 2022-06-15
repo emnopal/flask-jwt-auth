@@ -25,9 +25,6 @@ class UpdateUserInformation(MethodResource, Resource):
 
     @doc(description='Update User Information Endpoint.', tags=['Session', 'User', 'Profile'])
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @use_kwargs(UpdateUserInformationRequest, location='json')

@@ -18,9 +18,6 @@ class GetCurrentUser(MethodResource, Resource):
 
     @doc(description='Get Current Logged in User', tags=['Session', 'User'])
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @marshal_with(GetCurrentUserResponse)

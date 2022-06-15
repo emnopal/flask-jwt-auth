@@ -26,9 +26,7 @@ class UpdateUsername(MethodResource, Resource):
                             data = {
                                 'new_auth_token': new_auth_token
                             }
-                            res = response_message(200, 'success', 'Successfully changed username.', data)
-                            res.set_cookie(conf.get('COOKIE_NAME'), new_auth_token, max_age=60 * conf.get('TOKEN_EXPIRED'))
-                            return res
+                            return response_message(200, 'success', 'Successfully changed username.', data)
                         else:
                             raise Exception
                     except:

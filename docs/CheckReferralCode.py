@@ -26,9 +26,6 @@ class CheckReferralCode(MethodResource, Resource):
         tags=['Referral']
     )
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @use_kwargs(CheckReferralCodeRequest, location='json')
@@ -41,9 +38,6 @@ class CheckReferralCode(MethodResource, Resource):
         description='Get Referral Code of User Information Endpoint.',
         tags=['Referral']
     )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
     @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')

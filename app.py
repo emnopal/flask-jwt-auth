@@ -13,7 +13,6 @@ dotenv.load_dotenv(dotenv_file)
 
 parser.add_argument('-c', '--command', help='Command for tweaking flask app', type=str)
 parser.add_argument('-s', '--set-staging', help='Set Default Staging', type=str)
-parser.add_argument('--set-cookie-name', help='Set Cookie Name', type=str, nargs='+')
 
 if __name__ == '__main__':
     args = parser.parse_args()
@@ -41,10 +40,6 @@ if __name__ == '__main__':
             dotenv.set_key(dotenv_file, "APP_ENV", os.environ["APP_ENV"], quote_mode='never')
         else:
             parser.error('unknown staging status.')
-
-    if args.set_cookie_name:
-        os.environ["COOKIE_NAME"] = "_".join(args.set_cookie_name)
-        dotenv.set_key(dotenv_file, "COOKIE_NAME", os.environ["COOKIE_NAME"], quote_mode='never')
 
     else:
         run()

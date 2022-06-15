@@ -26,9 +26,6 @@ class ValidateReferralCode(MethodResource, Resource):
         tags=['Referral']
     )
     @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
-    @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
     @use_kwargs(ValidateReferralCodeRequest, location='json')
@@ -41,9 +38,6 @@ class ValidateReferralCode(MethodResource, Resource):
         description='Validated Referral Code, once ref code is validated, user can\'t use the ref code twice.',
         tags=['Referral']
     )
-    @use_kwargs({
-        'cookies': fields.Str(required=True, description="Authorization JWT from cookies")
-    }, location='cookies')
     @use_kwargs({
         'headers': fields.Str(required=True, description="Authorization HTTP header with JWT refresh token")
     }, location='headers')
