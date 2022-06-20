@@ -4,3 +4,4 @@ from .encode_auth_token import encode_auth_token
 from .response_message import response_message
 from .check_mail import check_mail
 from .validate_register import validate_register
+from .serializers import Serializers

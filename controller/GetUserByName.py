@@ -1,21 +1,10 @@
 from flask import request
 from flask_apispec import MethodResource
 from flask_restful import Resource
-from helper import response_message
+from helper import response_message, Serializers
 from model import User
 from middleware import must_login
 
-def GetUserData(user, num):
-    data = {}
-    data[f'user_{num}'] = {
-        'username': user.username,
-        'name': user.name,
-        'email': user.email,
-        'registered_on': user.registered_on,
-        'status': 'online' if user.last_logged_in else 'offline',
-        'last_online': user.last_logged_out if user.last_logged_out else 'now'
-    }
-    return data
 
 class GetUserByName(MethodResource, Resource):
 
@@ -23,13 +12,16 @@ class GetUserByName(MethodResource, Resource):
     def get(self, auth):
 
         args = request.args
+        data = []
+
+        by_name = args.get('name')
+        by_username = args.get('username')
+        by_mail = args.get('mail')
+
+        args_for_filtering = any([by_name, by_username, by_mail])
 
         # Get user based by name or mail or username
-        if args:
-
-            by_name = args.get('name')
-            by_username = args.get('username')
-            by_mail = args.get('mail')
+        if args_for_filtering:
 
             if by_name:
                 result = User.query.filter(User.name.contains(by_name)).all()
@@ -39,13 +31,19 @@ class GetUserByName(MethodResource, Resource):
                 result = User.query.filter(User.email.contains(by_mail)).all()
 
             for num, user in enumerate(result):
-                data = GetUserData(user, num)
-
-            return response_message(200, 'success', 'Successfully get user data.', data)
+                data.append(Serializers(user).SerializeUserData(num))
 
         # Return all user
-        users = User.query.all()
-        for num, user in enumerate(users):
-            data = GetUserData(user, num)
-        return response_message(200, 'success', 'Successfully get user data.', data)
+        else:
+            users = User.query.all()
+            for num, user in enumerate(users):
+                data.append(Serializers(user).SerializeUserData(num))
+
+        # Paginating the data
+        page_size = args.get('page_size') if args.get('page_size') else None
+        page = args.get('page') if args.get('page') else None
+
+        paginate_results = Serializers(data).PaginateData(page_size, page)
+
+        return response_message(200, 'success', 'Successfully get user data.', paginate_results)
 
