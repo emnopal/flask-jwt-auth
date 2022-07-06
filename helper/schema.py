@@ -4,7 +4,7 @@ from model import User
 
 class RequestResponse(Schema):
     fields_ = fields
-    message = fields.Str(description=f"Response message")
+    message = fields.Str(description="Response message")
     status = fields.Str(description="Response status")
     status_code = fields.Int(description="Response status code")
     method = fields.Str(description="Response request method")

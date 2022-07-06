@@ -29,7 +29,6 @@ class ValidateReferralCode(MethodResource):
     @marshal_with(RequestResponse)
     @TokenRequired
     def post(self, auth, **kwargs):
-        print(kwargs['referral_code'])
         """
         Using json to send referral code
         """

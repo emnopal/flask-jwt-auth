@@ -34,5 +34,5 @@ class RefreshJWTToken(MethodResource):
                 'new_auth_token': new_auth_token,
             }
             return response_message(200, 'success', 'New Auth Token', data)
-        except Exception as e:
-            return response_message(500, 'fail', f'Internal Server Error')
+        except Exception:
+            return response_message(500, 'fail', 'Internal Server Error')

@@ -1,7 +1,6 @@
 from flask import request
 from flask_apispec import MethodResource, marshal_with, use_kwargs, doc
-from flask_restful import Resource
-from helper import response_message, Serializers, RequestResponse, RequestPost
+from helper import response_message, Serializers, RequestResponse
 from model import User
 from middleware import TokenRequired
 

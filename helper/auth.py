@@ -1,9 +1,7 @@
-import jwt
-import datetime
-
 from typing import TypeVar, Optional, Union
+import datetime
+import jwt
 from model import BlacklistToken
-
 from src import app
 
 T = TypeVar("T")
