@@ -1,1 +1,1 @@
-from .must_login import must_login
+from .token_required import TokenRequired

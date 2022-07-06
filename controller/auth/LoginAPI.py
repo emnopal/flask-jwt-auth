@@ -1,20 +1,31 @@
 import datetime
-from flask import request
-from flask_apispec import MethodResource
-from flask_restful import Resource
-from helper import response_message, encode_auth_token
+from flask_apispec import MethodResource, marshal_with, doc, use_kwargs
+from helper import response_message, Auth, RequestResponse, RequestPost
 from model import User
-from controller import bcrypt, app, db
+from controller import bcrypt, db
 
 
-class LoginAPI(MethodResource, Resource):
-    def post(self):
-        post_data = request.get_json()
-        conf = app.config
+class LoginRequestPost(RequestPost):
+    fields_ = RequestPost.fields_
+    username = fields_.Str(required=True, description="Input Field for Username")
+    password = fields_.Str(required=True, description="Input Field for Password")
+
+
+class LoginAPI(MethodResource):
+
+    @doc(
+        description='Login Endpoint.',
+    )
+    @use_kwargs(LoginRequestPost, location='json')
+    @marshal_with(RequestResponse)
+    def post(self, **kwargs):
         try:
-            user = User.query.filter_by(username=str(post_data.get('username'))).first()
-            if user and bcrypt.check_password_hash(str(user.password), str(post_data.get('password'))):
-                auth_token = encode_auth_token(str(user.username), int(conf.get('TOKEN_EXPIRED')))
+            user = User.query.filter_by(username=str(kwargs.get('username'))).first()
+            if user and bcrypt.check_password_hash(str(user.password), str(kwargs.get('password'))):
+                auth_token_data = {
+                    'username': str(user.username)
+                }
+                auth_token = Auth(data=auth_token_data).EncodeAuthToken()
                 if auth_token:
                     user.last_logged_in = datetime.datetime.now()
                     user.last_logged_out = None

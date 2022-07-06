@@ -26,4 +26,3 @@ class User(db.Model):
         self.username = username
         self.name = name
         self.registered_on = datetime.datetime.now()
-

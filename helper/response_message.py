@@ -1,6 +1,12 @@
+from typing import Union, Optional, TypeVar
 from flask import jsonify, make_response, request
+from flask.wrappers import Response
 
-def response_message(status_code, status, message="", data=None):
+T = TypeVar("T")
+
+
+def response_message(status_code: Union[str, int], status: str, message: str = "",
+                     data: Union[str, dict[T, T], None] = None) -> Response:
     if data is None:
         return make_response(
             jsonify({

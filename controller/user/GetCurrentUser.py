@@ -1,16 +1,26 @@
-from flask import request
-from flask_apispec import MethodResource
-from flask_restful import Resource
-from helper import response_message
+from flask_apispec import MethodResource, marshal_with, doc
+from helper import response_message, RequestResponse
 from model import User
-from middleware import must_login
+from middleware import TokenRequired
 
 
-class GetCurrentUser(MethodResource, Resource):
+class GetCurrentUser(MethodResource):
 
-    @must_login
-    def get(self, auth):
-        user = User.query.filter_by(username=auth['resp']['sub']['username']).first()
+    @doc(
+        description='Get Current Logged in User',
+        params={
+            'Authorization': {
+                'description': 'Authorization HTTP header with JWT access token',
+                'in': 'header',
+                'type': 'string',
+                'required': True
+            }
+        }
+    )
+    @marshal_with(RequestResponse)
+    @TokenRequired
+    def get(self, auth, **kwargs):
+        user = User.query.filter_by(username=auth['resp']['sub']['data']['username']).first()
         data = {
             'username': user.username,
             'name': user.name,
@@ -23,4 +33,3 @@ class GetCurrentUser(MethodResource, Resource):
             'last_logout': user.last_logged_out
         }
         return response_message(200, 'success', 'Successfully get session data.', data)
-

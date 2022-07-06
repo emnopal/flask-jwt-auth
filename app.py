@@ -4,7 +4,7 @@ import os
 import secrets
 import argparse
 import dotenv
-from docs import app
+from route import app
 from model import db
 
 parser = argparse.ArgumentParser()
@@ -24,7 +24,7 @@ if __name__ == '__main__':
     if args.command:
         if args.command.lower() == 'migrate':
             db.create_all()
-        elif args.command.lower() == 'refresh':
+        elif args.command.lower() == 'REFRESH_SECRET_KEY':
             os.environ["SECRET_KEY"] = secrets.token_urlsafe(64)
             dotenv.set_key(dotenv_file, "SECRET_KEY", os.environ["SECRET_KEY"], quote_mode='never')
 

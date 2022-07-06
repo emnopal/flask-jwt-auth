@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv()
 
+
 class BaseConfig:
     DB_USERNAME = os.getenv('DB_USERNAME')
     DB_PASSWORD = os.getenv('DB_PASSWORD')
@@ -23,7 +24,7 @@ class BaseConfig:
     APP_ENV = os.getenv('APP_ENV')
     APP_PREFIX = '/api'
 
-    TOKEN_EXPIRED = 60*24*5
+    TOKEN_EXPIRED = 60 * 24 * 5
 
 
 class DevelopmentConfig(BaseConfig):
