@@ -20,6 +20,7 @@ as database with SQLAlchemy as SQL Connector to Python.
 
 - Just Run docker compose:<br>
     `$ docker-compose up -d db && docker-compose run --rm flaskapp /bin/bash -c "cd /opt/services/flaskapp/src && python app.py -c migrate" && docker-compose up -d`
+- CAUTION: Fix This!
 
 For API testing, I suggest you to use [Postman](https://www.postman.com/) for testing the API. <br><br>
 
