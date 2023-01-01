@@ -34,6 +34,8 @@ For API Docs, you can use Swagger to view the docs. <br>
 
 ## To Do
 
+- Fix Docker Config
+- Fix OpenAPI Documentation
 - Unit Testing
 - Logger
 - Fix Routing [Done]
